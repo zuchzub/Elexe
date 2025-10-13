@@ -1,5 +1,5 @@
 aiofiles
-aiohttp~=3.12.15
+aiohttp
 beautifulsoup4
 Flask
 gitpython
@@ -8,7 +8,7 @@ hachoir
 heroku3
 lyricsgenius
 motor
-ntgcalls==2.0.6
+ntgcalls
 pillow
 psutil
 py-tgcalls==2.2.8
@@ -20,7 +20,7 @@ spotipy
 unidecode
 uvloop
 werkzeug
-yt-dlp
+https://github.com/yt-dlp/yt-dlp/archive/master.zip
 https://github.com/KurimuzonAkuma/pyrogram/archive/dev.zip
 https://github.com/KSKOP69/youtube-search-python/archive/ksk.zip
 PyYAML~=6.0.3
