@@ -21,19 +21,11 @@
 <br>
 
 > [!IMPORTANT]
->## <h2 align="center"><b>🚀 Fix for YouTube IP Blocking & Sign-In Errors </b></h2>
+># <h2 align="center"><b>🚀 Fix for YouTube ip blocking & Sign-in errors </b></h2>
 >
->### <h3><b>If you're facing issues with YouTube blocking ips or signing in, follow this simple fix:</b></h3>
+>## [Guide for using cookies](https://github.com/TheTeamAlexa/AlexaMusic/blob/master/cookies/README.md)
 >
->• **Join the Support Group**: Type `#cookies` in our [sᴜᴘᴘᴏʀᴛ Gʀᴏᴜᴘ](https://t.me/Alexa_Help) to receive the necessary extension link.
->
->• **Generate Cookies**: Download [Firefox](www.mozilla.org/en-US/firefox) and login in to Youtube <b>(Use a fake account for safety)</b>. Run the provided extension on Firefox to generate cookies.
->
->• **Save Cookies**: Paste the generated cookies into [BatBin](https://batbin.me). Copy the BatBin link and paste it in the config.
->
->• **Deploy the Bot ✨**: Once Configured, Deploy your bot and enjoy unrestricted access !!!
->
->#### 🔹 Need Help ? Join our Support Group for Assistance !!!
+>### 🔹 Need Help ? Join our Support Group for Assistance!!
 
 
 <h1 align="center"><b>😂 ᴠɪᴇᴡ ᴀʟʟ ᴄᴏᴍᴍᴀɴᴅs 😂</b></h1>
