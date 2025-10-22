@@ -1,98 +1,112 @@
-# Telif Hakkı (C) 2021-2022 TeamYukki@Github
-# Bu dosya YukkiMusicBot projesinin Türkçe uyumlu komut sürümüdür.
-# Türkçe karakterler kaldırılmıştır (bot uyumu için).
+#
+# Copyright (C) 2021-2022 by TeamYukki@Github, < https://github.com/TeamYukki >.
+#
+# This file is part of < https://github.com/TeamYukki/YukkiMusicBot > project,
+# and is released under the "GNU v3.0 License Agreement".
+# Please see < https://github.com/TeamYukki/YukkiMusicBot/blob/master/LICENSE >
+#
+# All rights reserved.
 
-# 🌐 Genel Bot Komutlari
-PING_COMMAND : ["ping", "gecikme"]
-START_COMMAND : ["start", "baslat"]
-HELP_COMMAND : ["help", "yardim"]
-SETTINGS_COMMAND : ["settings", "ayarlar", "ayar"]
-RELOAD_COMMAND : ["reload", "yenile"]
-STATS_COMMAND : ["stats", "istatistik", "durum"]
-LANGUAGE_COMMAND : ["lang", "language", "dil"]
 
-# 🎵 Oynatma Komutlari
-PLAY_COMMAND : ["play", "vplay", "cplay", "oynat", "voynat", "videooynat"]
-PLAYMODE_COMMAND : ["playmode", "oynatimmodu", "mod"]
-CHANNELPLAY_COMMAND : ["channelplay", "kanaloynat"]
-STREAM_COMMAND : ["stream", "yayin", "akis"]
+# Commands in Every Language
 
-# 🎶 Calma Listesi Komutlari
-PLAYLIST_COMMAND : ["playlist", "calmalistesi", "liste"]
-DELETEPLAYLIST_COMMAND : ["deleteplaylist", "listesil", "calmalistesil"]
+# Bot Commands
+PING_COMMAND : ["ping"]
+START_COMMAND : ["start"]
+HELP_COMMAND : ["help", "yardim", "yardım"]
+SETTINGS_COMMAND : ["settings", "setting", "ayarlar", "ayar"]
+RELOAD_COMMAND : ["admincache", "reload"]
+GSTATS_COMMAND : ["jddkdkasdfdsafghcasdasdfdhgsdf"]
+STATS_COMMAND : ["jddkdkasdfdsafgh"]
+LANGUAGE_COMMAND : ["lang", "language", "langs", "dil"]
 
-# 🎧 Arac Komutlari
-QUEUE_COMMAND : ["queue", "cqueue", "player", "sira", "calan"]
-SONG_COMMAND : ["song", "video", "bul", "indir", "vbul", "sarki"]
-LYRICS_COMMAND : ["lyrics", "sarkisozu", "soz"]
+# Play Commands
+PLAY_COMMAND : ["play", "vplay","voynat", "cplay", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce", "oynat", "o", "pl"]
+PLAYMODE_COMMAND : ["playmode"]
+CHANNELPLAY_COMMAND : ["channelplay"]
+STREAM_COMMAND : ["stadsfream", "cstfewream", "strfewaeamforce"]
 
-# 🛠️ Yonetici Komutlari
+#Playlists Command
+PLAYLIST_COMMAND : ["playlist"]
+DELETEPLAYLIST_COMMAND : ["deleteplaylist", "listemisil"]
+
+
+# Tools
+QUEUE_COMMAND : ["queue","cqueue", "player", "cplayer", "playing", "cplaying", "sira"]
+SONG_COMMAND : ["song", "video", "bul", "indir", "vbul"]
+LYRICS_COMMAND : ["lyrics", "sarkisozu", "sarkısözü", "sarkisözü"]
+
+
+# Admin Commands
 AUTH_COMMAND : ["auth", "yetkilendir"]
-UNAUTH_COMMAND : ["unauth", "yetkial"]
-AUTHUSERS_COMMAND : ["authusers", "yetkililer"]
-PAUSE_COMMAND : ["pause", "duraklat"]
-RESUME_COMMAND : ["resume", "devam"]
-MUTE_COMMAND : ["mute", "sessizeal"]
-UNMUTE_COMMAND : ["unmute", "sessiac"]
-STOP_COMMAND : ["stop", "end", "durdur", "bitir"]
-SKIP_COMMAND : ["skip", "atla"]
-SHUFFLE_COMMAND : ["shuffle", "karistir"]
-LOOP_COMMAND : ["loop", "tekrar", "dongu"]
-SEEK_COMMAND : ["seek", "ilerisar", "gerisar"]
-RESTART_COMMAND : ["restart", "yenidenbaslat"]
+UNAUTH_COMMAND : ["unauth"]
+AUTHUSERS_COMMAND : ["authusers"]
+PAUSE_COMMAND : ["pause", "cpause", "duraklat"]
+RESUME_COMMAND : ["resume", "cresume", "devam"]
+MUTE_COMMAND : ["muafgte", "cmuwfaete"]
+UNMUTE_COMMAND : ["unmwaefute", "cunmfawute"]
+STOP_COMMAND : ["stop", "end", "cstop", "cend", "durdur", "dur", "son", "bitir"]
+SKIP_COMMAND : ["skip", "cskip", "atla", "a"]
+SHUFFLE_COMMAND : ["karistir", "cshuffle", "karıştır"]
+LOOP_COMMAND : ["loop", "cloop", "dongu", "döngü", "tekrar"]
+SEEK_COMMAND : ["ilerisar", "cseek", "gerisar", "seekback", "cseekback"]
+RESTART_COMMAND : ["restart"]
 
-# 👑 Sudo Komutlari
-ADDSUDO_COMMAND : ["addsudo", "sudoekle"]
-DELSUDO_COMMAND : ["delsudo", "sudosil"]
-SUDOUSERS_COMMAND : ["sudolist", "sudolar"]
+# Sudo Users Commaands
 
-# 📢 Duyuru Komutlari
-BROADCAST_COMMAND : ["broadcast", "duyuru", "yayinla"]
+# Sudo Command
+ADDSUDO_COMMAND : ["addsudo"]
+DELSUDO_COMMAND : ["delsudo"]
+SUDOUSERS_COMMAND : ["sudolistt"]
 
-# 🚫 Kara Liste Komutlari
-BLACKLISTCHAT_COMMAND : ["blacklistchat", "karaekle", "engelle"]
-WHITELISTCHAT_COMMAND : ["whitelistchat", "engelkaldir"]
-BLACKLISTEDCHAT_COMMAND : ["blacklistedchat", "engelliler", "karaliste"]
+#Broadcast 
+BROADCAST_COMMAND : ["broadcast"]
 
-# 🎥 Goruntulu Sohbet Komutlari
-VIDEOLIMIT_COMMAND : ["videolimit"]
-VIDEOMODE_COMMAND : ["videomod"]
+#Blacklist chat
+BLACKLISTCHAT_COMMAND : ["blacklistchat", "engelle"]
+WHITELISTCHAT_COMMAND : ["whitelistchat"]
+BLACKLISTEDCHAT_COMMAND : ["blacklistedchat", "engelliler"]
 
-# ⚙️ Bakim ve Log Komutlari
-MAINTENANCE_COMMAND : ["maintenance", "bakim"]
-LOGGER_COMMAND : ["logger", "log"]
+# Video Calls Command
+VIDEOLIMIT_COMMAND : ["set_video_limit", "videolimit"]
+VIDEOMODE_COMMAND : ["videomode"]
 
-# ☁️ Heroku Komutlari
-GETLOG_COMMAND : ["getlog", "logal"]
-GETVAR_COMMAND : ["getvar", "degiskenal"]
-DELVAR_COMMAND : ["delvar", "degiskensil"]
-SETVAR_COMMAND : ["setvar", "degiskenayarla"]
-USAGE_COMMAND : ["usage", "kullanim"]
-VARS_COMMAND : ["vars", "ayarlar"]
+#Mantenance
+MAINTENANCE_COMMAND : ["maintenance"]
+LOGGER_COMMAND : ["logger"]
 
-# 🔁 Temel Bot Komutlari
-UPDATE_COMMAND : ["update", "guncelle"]
-REBOOT_COMMAND : ["reboot", "yenidenbaslat"]
-AUTOEND_COMMAND : ["autoend", "otomatikbitir"]
+#Heroku
+GETLOG_COMMAND : ["get_log"]
+GETVAR_COMMAND : ["geetfew_efwvar"]
+DELVAR_COMMAND : ["defwel_var"]
+SETVAR_COMMAND : ["sefwet_var"]
+USAGE_COMMAND : ["usafwage"]
+VARS_COMMAND : ["vafawrs", "config"]
 
-# 🔐 Ozel Mod Komutlari
-AUTHORIZE_COMMAND : ["pro", "yetkilendir"]
-UNAUTHORIZE_COMMAND : ["unpro", "yetkisiz"]
-AUTHORIZED_COMMAND : ["prolar", "yetkililer"]
 
-# 🚷 Kullanici Engelleme
-BLOCK_COMMAND : ["block", "engelle"]
-UNBLOCK_COMMAND : ["unblock", "engelkaldir"]
-BLOCKED_COMMAND : ["blockedusers", "engellenenler"]
+#Basic Bot Commands
+UPDATE_COMMAND : ["update"]
+REBOOT_COMMAND : ["reboot"]
+AUTOEND_COMMAND : ["autoend"]
 
-# ⚡ Hiz Testi
-SPEEDTEST_COMMAND : ["speedtest", "spd", "hiztesti"]
+#Private Bot Mode
+AUTHORIZE_COMMAND : ["pro"]
+UNAUTHORIZE_COMMAND : ["unpro"]
+AUTHORIZED_COMMAND : ["prolar"]
 
-# 🔊 Sesli ve Goruntulu Sohbet
+#Block Users Command
+BLOCK_COMMAND : ["block"]
+UNBLOCK_COMMAND : ["unblock"]
+BLOCKED_COMMAND : ["blockedusers"]
+
+#sPEEDTEST
+SPEEDTEST_COMMAND : ["speedtest", "spd", "speed"]
+
+#Voice chat commands
 ACTIVEVC_COMMAND : ["activevoice", "aktifses"]
 ACTIVEVIDEO_COMMAND : ["activevideo", "aktifvideo"]
 
-# 🌍 Global Yasaklama
-GBAN_COMMAND : ["gban", "genelban"]
-UNGBAN_COMMAND : ["ungban", "genelac"]
-GBANNED_COMMAND : ["gbannedusers", "genelbenliler"]
+#Gban Commands
+GBAN_COMMAND : ["gban"]
+UNGBAN_COMMAND : ["ungban"]
+GBANNED_COMMAND : ["gbannedusers"]
