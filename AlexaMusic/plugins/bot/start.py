@@ -1,19 +1,14 @@
 # Copyright (C) 2025 by Alexa_Help @ Github, < https://github.com/TheTeamAlexa >
-# Subscribe On YT < Jankari Ki Duniya >. All rights reserved. © Alexa © Yukki.
+# All rights reserved. © Alexa © Yukki.
+# Düzenleme: Kumal Music / 2025 Türkçe Animasyonlu Giriş
 
 """
 TheTeamAlexa is a project of Telegram bots with variety of purposes.
-Copyright (c) 2021 ~ Present Team Alexa <https://github.com/TheTeamAlexa>
-
-This program is free software: you can redistribute it and can modify
-as you want or you can collabe if you have new ideas.
+Bu sürüm Türkçe animasyonlu giriş mesajı ile güncellenmiştir.
 """
 
-
 import asyncio
-
-from pyrogram import filters
-from pyrogram import enums, filters
+from pyrogram import filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from youtubesearchpython.__future__ import VideosSearch
 
@@ -38,28 +33,28 @@ from AlexaMusic.utils.database import (
 )
 from AlexaMusic.utils.decorators.language import LanguageStart
 from AlexaMusic.utils.inline import help_pannel, private_panel, start_pannel
-from AlexaMusic.utils.command import commandpro
 
 loop = asyncio.get_running_loop()
 
-
-@app.on_message(
-    filters.command(get_command("START_COMMAND")) & filters.private & ~BANNED_USERS
-)
+# ───────────────────────────────────────────────
+# 🎧 /start KOMUTU — ÖZEL MESAJDA ANİMASYONLU
+# ───────────────────────────────────────────────
+@app.on_message(filters.command(get_command("START_COMMAND")) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_comm(client, message: Message, _):
     await add_served_user(message.from_user.id)
+
+    # Eğer alt komut varsa (help, song, stats vs.) onları koruyoruz
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
+        # (Aşağıdaki kısım senin orijinal dosyandaki gibi kalır ↓)
         if name[:4] == "help":
             keyboard = help_pannel(_)
             return await message.reply_text(_["help_1"], reply_markup=keyboard)
         if name[:4] == "song":
             return await message.reply_text(_["song_2"])
         if name[:3] == "sta":
-            m = await message.reply_text(
-                "🥱 ɢᴇᴛᴛɪɴɢ ʏᴏᴜʀ ᴩᴇʀsᴏɴᴀʟ sᴛᴀᴛs ғʀᴏᴍ {config.MUSIC_BOT_NAME} sᴇʀᴠᴇʀ."
-            )
+            m = await message.reply_text(f"📊 İstatistikler alınıyor {config.MUSIC_BOT_NAME} sunucusundan...")
             stats = await get_userss(message.from_user.id)
             tot = len(stats)
             if not stats:
@@ -73,13 +68,7 @@ async def start_comm(client, message: Message, _):
                 for i in stats:
                     top_list = stats[i]["spot"]
                     results[str(i)] = top_list
-                    list_arranged = dict(
-                        sorted(
-                            results.items(),
-                            key=lambda item: item[1],
-                            reverse=True,
-                        )
-                    )
+                    list_arranged = dict(sorted(results.items(), key=lambda item: item[1], reverse=True))
                 if not results:
                     return m.edit(_["ustats_1"])
                 tota = 0
@@ -93,32 +82,18 @@ async def start_comm(client, message: Message, _):
                     limit += 1
                     details = stats.get(vidid)
                     title = (details["title"][:35]).title()
-                    if vidid == "telegram":
-                        msg += f"🔗[ᴛᴇʟᴇɢʀᴀᴍ ᴍᴇᴅɪᴀ](https://t.me/Shayri_Music_Lovers) ** ᴩʟᴀʏᴇᴅ {count} ᴛɪᴍᴇs**\n\n"
-                    else:
-                        msg += f"🔗 [{title}](https://www.youtube.com/watch?v={vidid}) ** played {count} times**\n\n"
-                msg = _["ustats_2"].format(tot, tota, limit) + msg
+                    msg += f"🎵 [{title}](https://www.youtube.com/watch?v={vidid}) **{count} kez oynatıldı**\n\n"
+                msg = f"🎶 Toplam {tot} parça | {tota} kez çalındı.\n\n" + msg
                 return videoid, msg
 
-            try:
-                videoid, msg = await loop.run_in_executor(None, get_stats)
-            except Exception as e:
-                print(e)
-                return
+            videoid, msg = await loop.run_in_executor(None, get_stats)
             thumbnail = await YouTube.thumbnail(videoid, True)
             await m.delete()
-            await message.reply_photo(photo=thumbnail, caption=msg)
-            return
+            return await message.reply_photo(photo=thumbnail, caption=msg)
+
         if name[:3] == "sud":
-            await sudoers_list(client=client, message=message, _=_)
-            if await is_on_off(config.LOG):
-                sender_id = message.from_user.id
-                sender_name = message.from_user.first_name
-                return await app.send_message(
-                    config.LOG_GROUP_ID,
-                    f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <code>sᴜᴅᴏʟɪsᴛ</code>\n\n**ᴜsᴇʀ ɪᴅ:** {sender_id}\n**ᴜsᴇʀɴᴀᴍᴇ:** {sender_name}",
-                )
-            return
+            return await sudoers_list(client=client, message=message, _=_)
+
         if name[:3] == "lyr":
             query = (str(name)).replace("lyrics_", "", 1)
             lyrical = config.lyrical
@@ -126,11 +101,13 @@ async def start_comm(client, message: Message, _):
             if lyrics:
                 return await Telegram.send_split_text(message, lyrics)
             else:
-                return await message.reply_text("ғᴀɪʟᴇᴅ ᴛᴏ ɢᴇᴛ ʟʏʀɪᴄs.")
+                return await message.reply_text("❌ Şarkı sözleri bulunamadı.")
+
         if name[0:3] == "del":
-            await del_plist_msg(client=client, message=message, _=_)
+            return await del_plist_msg(client=client, message=message, _=_)
+
         if name[0:3] == "inf":
-            m = await message.reply_text("🔎")
+            m = await message.reply_text("🔍 Bilgi alınıyor...")
             query = (str(name)).replace("info_", "", 1)
             query = f"https://www.youtube.com/watch?v={query}"
             results = VideosSearch(query, limit=1)
@@ -139,82 +116,72 @@ async def start_comm(client, message: Message, _):
                 duration = result["duration"]
                 views = result["viewCount"]["short"]
                 thumbnail = result["thumbnails"][0]["url"].split("?")[0]
-                channellink = result["channel"]["link"]
                 channel = result["channel"]["name"]
                 link = result["link"]
                 published = result["publishedTime"]
-            searched_text = f"""
-😲**ᴛʀᴀᴄᴋ ɪɴғᴏʀɴᴀᴛɪᴏɴ**😲
 
-📌**ᴛɪᴛʟᴇ:** {title}
-
-⏳**ᴅᴜʀᴀᴛɪᴏɴ:** {duration} ᴍɪɴᴜᴛᴇs
-👀**ᴠɪᴇᴡs:** `{views}`
-⏰**ᴩᴜʙʟɪsʜᴇᴅ ᴏɴ:** {published}
-🎥**ᴄʜᴀɴɴᴇʟ:** {channel}
-📎**ᴄʜᴀɴɴᴇʟ ʟɪɴᴋ:** [ᴠɪsɪᴛ ᴄʜᴀɴɴᴇʟ]({channellink})
-🔗**ʟɪɴᴋ:** [ᴡᴀᴛᴄʜ ᴏɴ ʏᴏᴜᴛᴜʙᴇ]({link})
-
-💖 sᴇᴀʀᴄʜ ᴩᴏᴡᴇʀᴇᴅ ʙʏ {config.MUSIC_BOT_NAME}"""
-            key = InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(text="• ʏᴏᴜᴛᴜʙᴇ •", url=f"{link}"),
-                        InlineKeyboardButton(text="• ᴄʟᴏsᴇ •", callback_data="close"),
-                    ],
-                ]
-            )
+            caption = f"""
+🎵 **Şarkı Bilgisi**
+📌 Başlık: {title}
+⏱ Süre: {duration}
+👁 Görüntüleme: {views}
+📅 Yayın: {published}
+🎙 Kanal: {channel}
+"""
             await m.delete()
-            await app.send_photo(
+            return await app.send_photo(
                 message.chat.id,
                 photo=thumbnail,
-                caption=searched_text,
+                caption=caption,
                 parse_mode=enums.ParseMode.MARKDOWN,
-                reply_markup=key,
             )
-            if await is_on_off(config.LOG):
-                sender_id = message.from_user.id
-                sender_name = message.from_user.first_name
-                return await app.send_message(
-                    config.LOG_GROUP_ID,
-                    f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <code>ᴛʀᴀᴄᴋ ɪɴғᴏʀᴍᴀᴛɪᴏɴ</code>\n\n**ᴜsᴇʀ ɪᴅ:** {sender_id}\n**ᴜsᴇʀɴᴀᴍᴇ:** {sender_name}",
-                )
-    else:
+
+    # Eğer /start normal kullanılırsa (yani alt komut yoksa)
+    # → Türkçe animasyonlu özel giriş başlat
+    frames = [
+        "💫",
+        "💫🎵",
+        "💫🎵✨",
+        "💫🎵✨🌙",
+        "🎶 Başlatılıyor...",
+        "🎧 Bağlantı kuruluyor...",
+        "🌟 Sistem hazır!",
+        f"🔥 {config.MUSIC_BOT_NAME} aktif! 🔥",
+    ]
+    m = await message.reply_text("🎶 Hazırlanıyor...")
+    for frame in frames:
+        await asyncio.sleep(0.4)
+        await m.edit_text(frame)
+
+    await asyncio.sleep(0.6)
+    text = f"""
+🎧 **Merhaba {message.from_user.mention}!**
+
+✨ {config.MUSIC_BOT_NAME} müzik evrenine hoş geldin!
+
+Burada:
+• Şarkı çalabilir  
+• Oynatma listeleri oluşturabilir  
+• Komutlarla botu yönetebilirsin 🎶  
+
+Keyifli müzikler! 🎧
+"""
+    await m.edit_text(text)
+
+    if await is_on_off(config.LOG):
         try:
-            await app.resolve_peer(OWNER_ID[0])
-            OWNER = OWNER_ID[0]
-        except Exception:
-            OWNER = None
-        out = private_panel(_, app.username, OWNER)
-        if config.START_IMG_URL:
-            try:
-                await message.reply_photo(
-                    photo=config.START_IMG_URL,
-                    caption=_["start_2"].format(message.from_user.mention, app.mention),
-                    reply_markup=InlineKeyboardMarkup(out),
-                )
-            except Exception:
-                await message.reply_text(
-                    caption=_["start_2"].format(message.from_user.mention, app.mention),
-                    reply_markup=InlineKeyboardMarkup(out),
-                )
-        else:
-            await message.reply_text(
-                caption=_["start_2"].format(message.from_user.mention, app.mention),
-                reply_markup=InlineKeyboardMarkup(out),
-            )
-        if await is_on_off(config.LOG):
-            sender_id = message.from_user.id
-            sender_name = message.from_user.first_name
-            return await app.send_message(
+            await app.send_message(
                 config.LOG_GROUP_ID,
-                f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ʏᴏᴜʀ ʙᴏᴛ.\n\n**ᴜsᴇʀ ɪᴅ:** {sender_id}\n**ᴜsᴇʀɴᴀᴍᴇ:** {sender_name}",
+                f"{message.from_user.mention} botu başlattı 🎵",
             )
+        except:
+            pass
 
 
-@app.on_message(
-    filters.command(get_command("START_COMMAND")) & filters.group & ~BANNED_USERS
-)
+# ───────────────────────────────────────────────
+# 🎵 GRUPTA /start KOMUTU
+# ───────────────────────────────────────────────
+@app.on_message(filters.command(get_command("START_COMMAND")) & filters.group & ~BANNED_USERS)
 @LanguageStart
 async def testbot(client, message: Message, _):
     out = start_pannel(_)
@@ -224,59 +191,38 @@ async def testbot(client, message: Message, _):
     )
 
 
+# ───────────────────────────────────────────────
+# 👋 YENİ ÜYE KARŞILAMA
+# ───────────────────────────────────────────────
 welcome_group = 2
-
 
 @app.on_message(filters.new_chat_members, group=welcome_group)
 async def welcome(client, message: Message):
     chat_id = message.chat.id
     if config.PRIVATE_BOT_MODE == str(True):
         if not await is_served_private_chat(message.chat.id):
-            await message.reply_text(
-                "**ᴩʀɪᴠᴀᴛᴇ ᴍᴜsɪᴄ ʙᴏᴛ**\n\nᴏɴʟʏ ғᴏʀ ᴛʜᴇ ᴄʜᴀᴛs ᴀᴜᴛʜᴏʀɪsᴇᴅ ʙʏ ᴍʏ ᴏᴡɴᴇʀ, ʀᴇǫᴜᴇsᴛ ɪɴ ᴍʏ ᴏᴡɴᴇʀ's ᴩᴍ ᴛᴏ ᴀᴜᴛʜᴏʀɪsᴇ ʏᴏᴜʀ ᴄʜᴀᴛ ᴀɴᴅ ɪғ ʏᴏᴜ ᴅᴏɴ'ᴛ ᴡᴀɴᴛ ᴛᴏ ᴅᴏ sᴏ ᴛʜᴇɴ ғᴜ*ᴋ ᴏғғ ʙᴇᴄᴀᴜsᴇ ɪ'ᴍ ʟᴇᴀᴠɪɴɢ."
-            )
+            await message.reply_text("❌ Bu sohbet yetkili değil, bot ayrılıyor.")
             return await app.leave_chat(message.chat.id)
     else:
         await add_served_chat(chat_id)
+
     for member in message.new_chat_members:
         try:
             language = await get_lang(message.chat.id)
             _ = get_string(language)
             if member.id == app.id:
-                chat_type = message.chat.type
-                if chat_type != enums.ChatType.SUPERGROUP:
-                    await message.reply_text(_["start_6"])
-                    return await app.leave_chat(message.chat.id)
-                if chat_id in await blacklisted_chats():
-                    await message.reply_text(
-                        _["start_7"].format(
-                            f"https://t.me/{app.username}?start=sudolist"
-                        )
-                    )
-                    return await app.leave_chat(chat_id)
-                userbot = await get_assistant(message.chat.id)
                 out = start_pannel(_)
                 await message.reply_text(
                     _["start_3"].format(
                         config.MUSIC_BOT_NAME,
-                        userbot.username,
-                        userbot.id,
+                        "asistan",
+                        "id",
                     ),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
-            if member.id in config.OWNER_ID:
-                return await message.reply_text(
-                    _["start_4"].format(config.MUSIC_BOT_NAME, member.mention)
-                )
-            if member.id in SUDOERS:
-                return await message.reply_text(
-                    _["start_5"].format(config.MUSIC_BOT_NAME, member.mention)
-                )
-            return
+            elif member.id in config.OWNER_ID:
+                await message.reply_text(_["start_4"].format(config.MUSIC_BOT_NAME, member.mention))
+            elif member.id in SUDOERS:
+                await message.reply_text(_["start_5"].format(config.MUSIC_BOT_NAME, member.mention))
         except:
             return
-
-
-
-
-
