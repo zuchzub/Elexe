@@ -11,45 +11,45 @@
 # Commands in Every Language
 
 # Bot Commands
-PING_COMMAND : ["nxjdkd"]
+PING_COMMAND : ["ping"]
 START_COMMAND : ["start"]
-HELP_COMMAND : ["help"]
-SETTINGS_COMMAND : ["settings"]
+HELP_COMMAND : ["help", "yardim", "yardım"]
+SETTINGS_COMMAND : ["settings", "setting", "ayarlar", "ayar"]
 RELOAD_COMMAND : ["admincache", "reload"]
-GSTATS_COMMAND : ["jdkdkd"]
-STATS_COMMAND : ["jddkdk"]
-LANGUAGE_COMMAND : ["lang"]
+GSTATS_COMMAND : ["jddkdkasdfdsafghcasdasdfdhgsdf"]
+STATS_COMMAND : ["jddkdkasdfdsafgh"]
+LANGUAGE_COMMAND : ["lang", "language", "langs", "dil"]
 
 # Play Commands
-PLAY_COMMAND : ["play", "vplay", "cplay", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce", "oynat"]
+PLAY_COMMAND : ["play", "vplay","voynat", "cplay", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce", "oynat", "o", "pl"]
 PLAYMODE_COMMAND : ["playmode"]
 CHANNELPLAY_COMMAND : ["channelplay"]
-STREAM_COMMAND : ["bsnsns"]
+STREAM_COMMAND : ["stadsfream", "cstfewream", "strfewaeamforce"]
 
 #Playlists Command
 PLAYLIST_COMMAND : ["playlist"]
-DELETEPLAYLIST_COMMAND : ["deleteplaylist"]
+DELETEPLAYLIST_COMMAND : ["deleteplaylist", "listemisil"]
 
 
 # Tools
 QUEUE_COMMAND : ["queue","cqueue", "player", "cplayer", "playing", "cplaying", "sira"]
-SONG_COMMAND : ["bul", "song"]
-LYRICS_COMMAND : ["sshmds"]
+SONG_COMMAND : ["song", "video", "bul", "indir", "vbul"]
+LYRICS_COMMAND : ["lyrics", "sarkisozu", "sarkısözü", "sarkisözü"]
 
 
 # Admin Commands
-AUTH_COMMAND : ["auth"]
+AUTH_COMMAND : ["auth", "yetkilendir"]
 UNAUTH_COMMAND : ["unauth"]
 AUTHUSERS_COMMAND : ["authusers"]
-PAUSE_COMMAND : ["pause", "cpause", "durdur"]
+PAUSE_COMMAND : ["pause", "cpause", "duraklat"]
 RESUME_COMMAND : ["resume", "cresume", "devam"]
-MUTE_COMMAND : ["hzbs"]
-UNMUTE_COMMAND : ["bzns"]
-STOP_COMMAND : ["son", "end", "cson", "cend"]
-SKIP_COMMAND : ["skip", "cskip", "atla"]
-SHUFFLE_COMMAND : ["shuffle", "cshuffle", "karistir"]
-LOOP_COMMAND : ["loop", "cloop", "tekrarla"]
-SEEK_COMMAND : ["seek", "cseek", "seekback", "cseekback", "ileri"]
+MUTE_COMMAND : ["muafgte", "cmuwfaete"]
+UNMUTE_COMMAND : ["unmwaefute", "cunmfawute"]
+STOP_COMMAND : ["stop", "end", "cstop", "cend", "durdur", "dur", "son", "bitir"]
+SKIP_COMMAND : ["skip", "cskip", "atla", "a"]
+SHUFFLE_COMMAND : ["karistir", "cshuffle", "karıştır"]
+LOOP_COMMAND : ["loop", "cloop", "dongu", "döngü", "tekrar"]
+SEEK_COMMAND : ["ilerisar", "cseek", "gerisar", "seekback", "cseekback"]
 RESTART_COMMAND : ["restart"]
 
 # Sudo Users Commaands
@@ -57,56 +57,56 @@ RESTART_COMMAND : ["restart"]
 # Sudo Command
 ADDSUDO_COMMAND : ["addsudo"]
 DELSUDO_COMMAND : ["delsudo"]
-SUDOUSERS_COMMAND : ["sudoo"]
+SUDOUSERS_COMMAND : ["sudolistt"]
 
 #Broadcast 
-BROADCAST_COMMAND : ["broadcast", "reklam"]
+BROADCAST_COMMAND : ["broadcast"]
 
 #Blacklist chat
-BLACKLISTCHAT_COMMAND : ["blacklistchat"]
+BLACKLISTCHAT_COMMAND : ["blacklistchat", "engelle"]
 WHITELISTCHAT_COMMAND : ["whitelistchat"]
-BLACKLISTEDCHAT_COMMAND : ["blacklistedchat"]
+BLACKLISTEDCHAT_COMMAND : ["blacklistedchat", "engelliler"]
 
 # Video Calls Command
-VIDEOLIMIT_COMMAND : ["limit"]
-VIDEOMODE_COMMAND : ["nznsjs"]
+VIDEOLIMIT_COMMAND : ["set_video_limit", "videolimit"]
+VIDEOMODE_COMMAND : ["videomode"]
 
 #Mantenance
 MAINTENANCE_COMMAND : ["maintenance"]
 LOGGER_COMMAND : ["logger"]
 
 #Heroku
-GETLOG_COMMAND : ["kslsls"]
-GETVAR_COMMAND : ["apsnsm"]
-DELVAR_COMMAND : ["nxksks"]
-SETVAR_COMMAND : ["sksls"]
-USAGE_COMMAND : ["usage"]
-VARS_COMMAND : ["vars"]
+GETLOG_COMMAND : ["get_log"]
+GETVAR_COMMAND : ["geetfew_efwvar"]
+DELVAR_COMMAND : ["defwel_var"]
+SETVAR_COMMAND : ["sefwet_var"]
+USAGE_COMMAND : ["usafwage"]
+VARS_COMMAND : ["vafawrs", "config"]
 
 
 #Basic Bot Commands
 UPDATE_COMMAND : ["update"]
 REBOOT_COMMAND : ["reboot"]
-AUTOEND_COMMAND : ["snsj"]
+AUTOEND_COMMAND : ["autoend"]
 
 #Private Bot Mode
-AUTHORIZE_COMMAND : ["agjjh"]
-UNAUTHORIZE_COMMAND : ["jkvhjjth"]
-AUTHORIZED_COMMAND : ["hjjk"]
+AUTHORIZE_COMMAND : ["pro"]
+UNAUTHORIZE_COMMAND : ["unpro"]
+AUTHORIZED_COMMAND : ["prolar"]
 
 #Block Users Command
 BLOCK_COMMAND : ["block"]
 UNBLOCK_COMMAND : ["unblock"]
-BLOCKED_COMMAND : ["blocklist"]
+BLOCKED_COMMAND : ["blockedusers"]
 
 #sPEEDTEST
-SPEEDTEST_COMMAND : ["hsjeje"]
+SPEEDTEST_COMMAND : ["speedtest", "spd", "speed"]
 
 #Voice chat commands
-ACTIVEVC_COMMAND : ["activevoice"]
-ACTIVEVIDEO_COMMAND : ["activevideo"]
+ACTIVEVC_COMMAND : ["activevoice", "aktifses"]
+ACTIVEVIDEO_COMMAND : ["activevideo", "aktifvideo"]
 
 #Gban Commands
 GBAN_COMMAND : ["gban"]
 UNGBAN_COMMAND : ["ungban"]
-GBANNED_COMMAND : ["gbanlist"]
+GBANNED_COMMAND : ["gbannedusers"]
