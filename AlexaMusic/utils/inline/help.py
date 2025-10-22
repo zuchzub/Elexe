@@ -1,14 +1,11 @@
-# Copyright (C) 2025 by Alexa_Help @ Github, < https://github.com/TheTeamAlexa >
-# Subscribe On YT < Jankari Ki Duniya >. All rights reserved. © Alexa © Yukki.
-
-"""
-TheTeamAlexa is a project of Telegram bots with variety of purposes.
-Copyright (c) 2021 ~ Present Team Alexa <https://github.com/TheTeamAlexa>
-
-This program is free software: you can redistribute it and can modify
-as you want or you can collabe if you have new ideas.
-"""
-
+#
+# Copyright (C) 2021-2022 by TeamYukki@Github, < https://github.com/TeamYukki >.
+#
+# This file is part of < https://github.com/TeamYukki/YukkiMusicBot > project,
+# and is released under the "GNU v3.0 License Agreement".
+# Please see < https://github.com/TeamYukki/YukkiMusicBot/blob/master/LICENSE >
+#
+# All rights reserved.
 
 from typing import Union
 
@@ -18,25 +15,31 @@ from AlexaMusic import app
 
 
 def help_pannel(_, START: Union[bool, int] = None):
-    first = [InlineKeyboardButton(text=_["CLOSEMENU_BUTTON"], callback_data="close")]
+    first = [
+        InlineKeyboardButton(
+            text=_["CLOSEMENU_BUTTON"], callback_data=f"close"
+        )
+    ]
     second = [
         InlineKeyboardButton(
             text=_["BACK_BUTTON"],
-            callback_data="help_back",
+            callback_data=f"settingsback_helper",
         ),
-        InlineKeyboardButton(text=_["CLOSEMENU_BUTTON"], callback_data="close"),
+        InlineKeyboardButton(
+            text=_["CLOSEMENU_BUTTON"], callback_data=f"close"
+        ),
     ]
     mark = second if START else first
-    return InlineKeyboardMarkup(
+    upl = InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton(
-                    text=_["H_B_2"],
-                    callback_data="help_callback hb2",
-                ),
-                InlineKeyboardButton(
                     text=_["H_B_1"],
                     callback_data="help_callback hb1",
+                ),
+                InlineKeyboardButton(
+                    text=_["H_B_2"],
+                    callback_data="help_callback hb2",
                 ),
             ],
             [
@@ -51,16 +54,6 @@ def help_pannel(_, START: Union[bool, int] = None):
             ],
             [
                 InlineKeyboardButton(
-                    text=_["H_B_7"],
-                    callback_data="help_callback hb7",
-                ),
-            ],
-            [
-                InlineKeyboardButton(
-                    text=_["H_B_8"],
-                    callback_data="help_callback hb8",
-                ),
-                InlineKeyboardButton(
                     text=_["H_B_6"],
                     callback_data="help_callback hb5",
                 ),
@@ -68,23 +61,28 @@ def help_pannel(_, START: Union[bool, int] = None):
             mark,
         ]
     )
+    return upl
 
 
 def help_back_markup(_):
-    return InlineKeyboardMarkup(
+    upl = InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton(
-                    text=_["BACK_BUTTON"], callback_data="settings_back_helper"
+                    text=_["BACK_BUTTON"],
+                    callback_data=f"settings_back_helper",
                 ),
-                InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
+                InlineKeyboardButton(
+                    text=_["CLOSE_BUTTON"], callback_data=f"close"
+                ),
             ]
         ]
     )
+    return upl
 
 
 def private_help_panel(_):
-    return [
+    buttons = [
         [
             InlineKeyboardButton(
                 text=_["S_B_1"],
@@ -92,3 +90,4 @@ def private_help_panel(_):
             ),
         ],
     ]
+    return buttons
