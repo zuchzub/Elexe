@@ -121,7 +121,7 @@ async def stream(
                 run = await app.send_photo(
                     original_chat_id,
                     photo=img,
-                    text=_["stream_1"].format(
+                    caption=_["stream_1"].format(
                         title[:27],
                         f"https://t.me/{app.username}?start=info_{vidid}",
                         duration_min,
@@ -206,7 +206,7 @@ async def stream(
                 run = await app.send_photo(
                     original_chat_id,
                     photo=img,
-                    text=_["stream_1"].format(
+                    caption=_["stream_1"].format(
                         title[:27],
                         f"https://t.me/{app.username}?start=info_{vidid}",
                         duration_min,
@@ -259,7 +259,7 @@ async def stream(
             run = await app.send_photo(
                 original_chat_id,
                 photo=config.SOUNCLOUD_IMG_URL,
-                text=_["stream_3"].format(title, duration_min, user_name),
+                caption=_["stream_3"].format(title, duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
             )
             db[chat_id][0]["mystic"] = run
@@ -369,7 +369,7 @@ async def stream(
             run = await app.send_photo(
                 original_chat_id,
                 photo=img,
-                text=_["stream_1"].format(
+                capton=_["stream_1"].format(
                     title[:27],
                     f"https://t.me/{app.username}?start=info_{vidid}",
                     duration_min,
@@ -422,7 +422,7 @@ async def stream(
             run = await app.send_photo(
                 original_chat_id,
                 photo=config.STREAM_IMG_URL,
-                text=_["stream_2"].format(user_name),
+                caption=_["stream_2"].format(user_name),
                 reply_markup=InlineKeyboardMarkup(button),
             )
             db[chat_id][0]["mystic"] = run
