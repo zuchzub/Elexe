@@ -123,27 +123,27 @@ PLAYLIST_IMG_URL = getenv(
 
 GLOBAL_IMG_URL = getenv(
     "GLOBAL_IMG_URL",
-    "None",
+    "assets/Global.jpeg",
 )
 
 STATS_IMG_URL = getenv(
     "STATS_IMG_URL",
-    "None",
+    "assets/Stats.jpeg",
 )
 
 TELEGRAM_AUDIO_URL = getenv(
     "TELEGRAM_AUDIO_URL",
-    "None",
+    "assets/Audio.jpeg",
 )
 
 TELEGRAM_VIDEO_URL = getenv(
     "TELEGRAM_VIDEO_URL",
-    "None",
+    "assets/Video.jpeg",
 )
 
 STREAM_IMG_URL = getenv(
     "STREAM_IMG_URL",
-    "None",
+    "assets/Stream.jpeg",
 )
 
 SOUNCLOUD_IMG_URL = getenv(
@@ -153,7 +153,7 @@ SOUNCLOUD_IMG_URL = getenv(
 
 YOUTUBE_IMG_URL = getenv(
     "YOUTUBE_IMG_URL",
-    "None",
+    "assets/Youtube.jpeg",
 )
 
 SPOTIFY_ARTIST_IMG_URL = getenv(
@@ -170,6 +170,7 @@ SPOTIFY_PLAYLIST_IMG_URL = getenv(
     "SPOTIFY_PLAYLIST_IMG_URL",
     "assets/SpotifyPlaylist.jpeg",
 )
+
 
 
 def time_to_seconds(time):
