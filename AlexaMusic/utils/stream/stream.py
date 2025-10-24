@@ -141,7 +141,7 @@ async def stream(
         return await app.send_photo(
             original_chat_id,
             photo=carbon,
-            text=_["playlist_18"].format(position, link),
+            caption=_["playlist_18"].format(position, link),
             reply_markup=upl,
         )
     elif streamtype == "youtube":
@@ -176,7 +176,7 @@ async def stream(
             run = await app.send_photo(
                 original_chat_id,
                 photo=qimg,
-                text=_["queue_4"].format(
+                caption=_["queue_4"].format(
                     position, title[:27], duration_min, user_name
                 ),
                 reply_markup=InlineKeyboardMarkup(button),
@@ -309,7 +309,7 @@ async def stream(
             run = await app.send_photo(
                 original_chat_id,
                 photo=config.TELEGRAM_VIDEO_URL if video else config.TELEGRAM_AUDIO_URL,
-                text=_["stream_4"].format(title, link, duration_min, user_name),
+                caption=_["stream_4"].format(title, link, duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
             )
             db[chat_id][0]["mystic"] = run
@@ -369,7 +369,7 @@ async def stream(
             run = await app.send_photo(
                 original_chat_id,
                 photo=img,
-                capton=_["stream_1"].format(
+                caption=_["stream_1"].format(
                     title[:27],
                     f"https://t.me/{app.username}?start=info_{vidid}",
                     duration_min,
