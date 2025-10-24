@@ -1,69 +1,180 @@
-# Copyright (C) 2025 by Alexa_Help @ Github, < https://github.com/TheTeamAlexa >
-# Subscribe On YT < Jankari Ki Duniya >. All rights reserved. © Alexa © Yukki.
-
-"""
-TheTeamAlexa is a project of Telegram bots with variety of purposes.
-Copyright (c) 2021 ~ Present Team Alexa <https://github.com/TheTeamAlexa>
-
-This program is free software: you can redistribute it and can modify
-as you want or you can collabe if you have new ideas.
-"""
-
+# Copyright (C) 2025 by Alexa_Help @ Github
+# AlexaMusic - Otomatik Yeniden Başlatma Destekli Ana Modül
 
 import asyncio
 import importlib
-from typing import Any
+import sys
+import os
 
-from pyrogram import idle
+from pyrogram import idle, filters
 from pytgcalls.exceptions import NoActiveGroupCall
 
 import config
 from config import BANNED_USERS
 from AlexaMusic import LOGGER, app, userbot
-from AlexaMusic.core.call import Alexa
-from AlexaMusic.misc import sudo
+from AlexaMusic.core.call import AlexaMusic
 from AlexaMusic.plugins import ALL_MODULES
-from AlexaMusic.utils.database import get_banned_users, get_gbanned
-from AlexaMusic.core.cookies import save_cookies
+from AlexaMusic.utils.database import (
+    get_banned_users,
+    get_gbanned,
+    get_active_chats,
+    get_restart_settings,
+    update_restart_settings
+)
+
+# -----------------------------------------------------------
+# Global Değişkenler
+# -----------------------------------------------------------
+loop = asyncio.get_event_loop_policy().get_event_loop()
+auto_restart_task = None
 
 
-async def init() -> None:
-    # Check for at least one valid Pyrogram string session
-    if all(not getattr(config, f"STRING{i}") for i in range(1, 6)):
-        LOGGER("AlexaMusic").error("Add Pyrogram string session and then try...")
-        exit()
-    await sudo()
+# -----------------------------------------------------------
+# Otomatik Yeniden Başlatma Döngüsü
+# -----------------------------------------------------------
+async def auto_restart(interval_minutes: int):
+    """Belirtilen aralıkta botu otomatik yeniden başlatır."""
+    while True:
+        settings = await get_restart_settings()
+        if not settings["enabled"]:
+            break
+        await asyncio.sleep(interval_minutes * 60)
+        await restart_bot()
+
+
+async def restart_bot():
+    """Tüm aktif sohbetlere ve log grubuna bildirim gönderip yeniden başlatır."""
+    served_chats = await get_active_chats()
+    for chat_id in served_chats:
+        try:
+            await app.send_message(
+                chat_id,
+                f"**{config.MUSIC_BOT_NAME} kendini yeniden başlatıyor...**\n"
+                f"10-15 saniye içinde müzik tekrar çalmaya başlayacaktır 🎵"
+            )
+        except Exception:
+            pass
+
     try:
-        for user_id in await get_gbanned():
-            BANNED_USERS.add(user_id)
-        for user_id in await get_banned_users():
-            BANNED_USERS.add(user_id)
-    except Exception:
-        pass
-    await app.start()
-    await save_cookies()
-    for module in ALL_MODULES:
-        importlib.import_module(f"AlexaMusic.plugins{module}")
-    LOGGER("AlexaMusic.plugins").info("Necessary Modules Imported Successfully.")
-    await userbot.start()
-    await Alexa.start()
-    try:
-        await Alexa.stream_call("https://telegra.ph/file/b60b80ccb06f7a48f68b5.mp4")
-    except NoActiveGroupCall:
-        LOGGER("AlexaMusic").error(
-            "[ERROR] - \n\nTurn on group voice chat and don't put it off otherwise I'll stop working thanks."
+        await app.send_message(
+            config.LOG_GROUP_ID,
+            f"🔁 **{config.MUSIC_BOT_NAME} otomatik yeniden başlatılıyor.**"
         )
-        exit()
     except Exception:
         pass
-    await Alexa.decorators()
-    LOGGER("AlexaMusic").info("Alexa Music Bot Started Successfully")
+
+    os.system(f"kill -9 {os.getpid()} && bash start")
+
+
+# -----------------------------------------------------------
+# Komut: /autorestart
+# -----------------------------------------------------------
+@app.on_message(filters.command("autorestart") & filters.user(config.OWNER_ID))
+async def auto_restart_command(_, message):
+    """Otomatik yeniden başlatma komutu (/autorestart)."""
+    global auto_restart_task
+
+    if len(message.command) == 1:
+        settings = await get_restart_settings()
+        status = "✅ Açık" if settings["enabled"] else "❌ Kapalı"
+        hours = settings["interval"] // 60
+        await message.reply_text(
+            f"🔁 **Otomatik Yeniden Başlatma Durumu:** {status}\n"
+            f"⏰ **Aralık:** {hours} saat\n\n"
+            "Kullanım:\n"
+            "`/autorestart on` — Aç\n"
+            "`/autorestart off` — Kapat\n"
+            "`/autorestart [saat]` — Aralık belirle"
+        )
+        return
+
+    arg = message.command[1].lower()
+    if arg == "on":
+        settings = await update_restart_settings(enabled=True)
+        if auto_restart_task is None or auto_restart_task.done():
+            auto_restart_task = asyncio.create_task(auto_restart(settings["interval"]))
+        await message.reply_text("✅ Otomatik yeniden başlatma **aktif** edildi.")
+
+    elif arg == "off":
+        await update_restart_settings(enabled=False)
+        if auto_restart_task and not auto_restart_task.done():
+            auto_restart_task.cancel()
+        await message.reply_text("❌ Otomatik yeniden başlatma **devre dışı** bırakıldı.")
+
+    else:
+        try:
+            hours = int(float(arg))
+            if hours <= 0:
+                raise ValueError
+            minutes = hours * 60
+            settings = await update_restart_settings(interval=minutes)
+
+            if settings["enabled"]:
+                if auto_restart_task and not auto_restart_task.done():
+                    auto_restart_task.cancel()
+                auto_restart_task = asyncio.create_task(auto_restart(minutes))
+
+            await message.reply_text(f"⏰ Yeniden başlatma aralığı **{hours} saat** olarak ayarlandı.")
+        except ValueError:
+            await message.reply_text("❌ Geçersiz değer! Lütfen geçerli bir saat girin.")
+
+
+# -----------------------------------------------------------
+# Başlatıcı Fonksiyon
+# -----------------------------------------------------------
+async def init():
+    """Botu başlatır, modülleri yükler, sesli aramayı etkinleştirir."""
+    if (
+        not config.STRING1
+        and not config.STRING2
+        and not config.STRING3
+        and not config.STRING4
+        and not config.STRING5
+    ):
+        LOGGER("AlexaMusic").error("Hiçbir asistan oturumu (STRING) tanımlanmamış. Süreç sonlandırılıyor.")
+        return
+
+    if not config.SPOTIFY_CLIENT_ID or not config.SPOTIFY_CLIENT_SECRET:
+        LOGGER("AlexaMusic").warning("Spotify değişkenleri tanımlı değil. Spotify sorguları devre dışı kalacak.")
+
+    try:
+        for uid in await get_gbanned():
+            BANNED_USERS.add(uid)
+        for uid in await get_banned_users():
+            BANNED_USERS.add(uid)
+    except:
+        pass
+
+    await app.start()
+    for module in ALL_MODULES:
+        importlib.import_module("AlexaMusic.plugins" + module)
+    LOGGER("AlexaMusic.plugins").info("Tüm modüller başarıyla yüklendi ✅")
+
+    await userbot.start()
+    await AlexaMusic.start()
+
+    try:
+        await AlexaMusic.stream_call("http://docs.evostream.com/sample_content/assets/sintel1m720p.mp4")
+    except NoActiveGroupCall:
+        LOGGER("AlexaMusic").error("⚠️ Lütfen log grubundaki sesli aramayı açık tutun.")
+        sys.exit()
+    except:
+        pass
+
+    await AlexaMusic.decorators()
+    LOGGER("AlexaMusic").info("Alexa Music Bot başarıyla başlatıldı 🎶")
+
+    settings = await get_restart_settings()
+    if settings["enabled"]:
+        global auto_restart_task
+        auto_restart_task = asyncio.create_task(auto_restart(settings["interval"]))
+
     await idle()
-    await app.stop()
-    await userbot.stop()
-    LOGGER("AlexaMusic").info("Stopping Alexa Music Bot...")
 
 
+# -----------------------------------------------------------
+# Giriş Noktası
+# -----------------------------------------------------------
 if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(init())
-    LOGGER("AlexaMusic").info("Stopping Music Bot")
+    loop.run_until_complete(init())
+    LOGGER("AlexaMusic").info("Alexa Music Bot durduruluyor... Hoşçakalın 💫")
