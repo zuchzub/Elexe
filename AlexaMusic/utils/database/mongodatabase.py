@@ -1,7 +1,19 @@
 
+# Copyright (C) 2025 by Alexa_Help @ Github, < https://github.com/TheTeamAlexa >
+# Subscribe On YT < Jankari Ki Duniya >. All rights reserved. © Alexa © Yukki.
+
+"""
+TheTeamAlexa is a project of Telegram bots with variety of purposes.
+Copyright (c) 2021 ~ Present Team Alexa <https://github.com/TheTeamAlexa>
+
+This program is free software: you can redistribute it and can modify
+as you want or you can collabe if you have new ideas.
+"""
+
+
 from typing import Dict, List, Union
 
-from ArchMusic.core.mongo import mongodb
+from AlexaMusic.core.mongo import mongodb
 
 queriesdb = mongodb.queries
 userdb = mongodb.userstats
@@ -15,62 +27,24 @@ usersdb = mongodb.tgusersdb
 playlistdb = mongodb.playlist
 blockeddb = mongodb.blockedusers
 privatedb = mongodb.privatechats
-restart_db = mongodb.autorestart
-settings_collection = mongodb.settings
 
 
-async def get_restart_settings() -> Dict[str, Union[bool, int]]:
-    settings = await restart_db.find_one({"_id": "restart_config"})
-    if not settings:
-        settings = {
-            "_id": "restart_config",
-            "enabled": True,
-            "interval": 360 
-        }
-        await restart_db.insert_one(settings)
-    return settings
-
-async def update_restart_settings(enabled: bool = None, interval: int = None) -> Dict[str, Union[bool, int]]:
-    settings = await get_restart_settings()
-    update_data = {}
-    
-    if enabled is not None:
-        update_data["enabled"] = enabled
-    if interval is not None:
-        update_data["interval"] = interval
-        
-    if update_data:
-        await restart_db.update_one(
-            {"_id": "restart_config"},
-            {"$set": update_data}
-        )
-        settings.update(update_data)
-    
-    return settings
-
+# Playlist
 
 
 async def _get_playlists(chat_id: int) -> Dict[str, int]:
     _notes = await playlistdb.find_one({"chat_id": chat_id})
-    if not _notes:
-        return {}
-    return _notes["notes"]
+    return _notes["notes"] if _notes else {}
 
 
 async def get_playlist_names(chat_id: int) -> List[str]:
-    _notes = []
-    for note in await _get_playlists(chat_id):
-        _notes.append(note)
-    return _notes
+    return list(await _get_playlists(chat_id))
 
 
 async def get_playlist(chat_id: int, name: str) -> Union[bool, dict]:
     name = name
     _notes = await _get_playlists(chat_id)
-    if name in _notes:
-        return _notes[name]
-    else:
-        return False
+    return _notes[name] if name in _notes else False
 
 
 async def save_playlist(chat_id: int, name: str, note: dict):
@@ -101,9 +75,7 @@ async def delete_playlist(chat_id: int, name: str) -> bool:
 
 async def is_served_user(user_id: int) -> bool:
     user = await usersdb.find_one({"user_id": user_id})
-    if not user:
-        return False
-    return True
+    return bool(user)
 
 
 async def get_served_users() -> list:
@@ -120,6 +92,10 @@ async def add_served_user(user_id: int):
     return await usersdb.insert_one({"user_id": user_id})
 
 
+async def delete_served_chat(chat_id: int):
+    await chatsdb.delete_one({"chat_id": chat_id})
+
+
 # Served Chats
 
 
@@ -132,9 +108,7 @@ async def get_served_chats() -> list:
 
 async def is_served_chat(chat_id: int) -> bool:
     chat = await chatsdb.find_one({"chat_id": chat_id})
-    if not chat:
-        return False
-    return True
+    return bool(chat)
 
 
 async def add_served_chat(chat_id: int):
@@ -180,9 +154,7 @@ async def get_private_served_chats() -> list:
 
 async def is_served_private_chat(chat_id: int) -> bool:
     chat = await privatedb.find_one({"chat_id": chat_id})
-    if not chat:
-        return False
-    return True
+    return bool(chat)
 
 
 async def add_private_chat(chat_id: int):
@@ -204,25 +176,17 @@ async def remove_private_chat(chat_id: int):
 
 async def _get_authusers(chat_id: int) -> Dict[str, int]:
     _notes = await authuserdb.find_one({"chat_id": chat_id})
-    if not _notes:
-        return {}
-    return _notes["notes"]
+    return _notes["notes"] if _notes else {}
 
 
 async def get_authuser_names(chat_id: int) -> List[str]:
-    _notes = []
-    for note in await _get_authusers(chat_id):
-        _notes.append(note)
-    return _notes
+    return list(await _get_authusers(chat_id))
 
 
 async def get_authuser(chat_id: int, name: str) -> Union[bool, dict]:
     name = name
     _notes = await _get_authusers(chat_id)
-    if name in _notes:
-        return _notes[name]
-    else:
-        return False
+    return _notes[name] if name in _notes else False
 
 
 async def save_authuser(chat_id: int, name: str, note: dict):
@@ -262,9 +226,7 @@ async def get_gbanned() -> list:
 
 async def is_gbanned_user(user_id: int) -> bool:
     user = await gbansdb.find_one({"user_id": user_id})
-    if not user:
-        return False
-    return True
+    return bool(user)
 
 
 async def add_gban_user(user_id: int):
@@ -286,9 +248,7 @@ async def remove_gban_user(user_id: int):
 
 async def get_sudoers() -> list:
     sudoers = await sudoersdb.find_one({"sudo": "sudo"})
-    if not sudoers:
-        return []
-    return sudoers["sudoers"]
+    return sudoers["sudoers"] if sudoers else []
 
 
 async def add_sudo(user_id: int) -> bool:
@@ -315,9 +275,7 @@ async def remove_sudo(user_id: int) -> bool:
 async def get_queries() -> int:
     chat_id = 98324
     mode = await queriesdb.find_one({"chat_id": chat_id})
-    if not mode:
-        return 0
-    return mode["mode"]
+    return mode["mode"] if mode else 0
 
 
 async def set_queries(mode: int):
@@ -354,8 +312,7 @@ async def get_global_tops() -> dict:
             title_ = chat["vidid"][i]["title"]
             if counts_ > 0:
                 if i not in results:
-                    results[i] = {}
-                    results[i]["spot"] = counts_
+                    results[i] = {"spot": counts_}
                     results[i]["title"] = title_
                 else:
                     spot = results[i]["spot"]
@@ -366,14 +323,10 @@ async def get_global_tops() -> dict:
 
 async def get_particulars(chat_id: int) -> Dict[str, int]:
     ids = await chattopdb.find_one({"chat_id": chat_id})
-    if not ids:
-        return {}
-    return ids["vidid"]
+    return ids["vidid"] if ids else {}
 
 
-async def get_particular_top(
-    chat_id: int, name: str
-) -> Union[bool, dict]:
+async def get_particular_top(chat_id: int, name: str) -> Union[bool, dict]:
     ids = await get_particulars(chat_id)
     if name in ids:
         return ids[name]
@@ -392,9 +345,7 @@ async def update_particular_top(chat_id: int, name: str, vidid: dict):
 
 async def get_userss(chat_id: int) -> Dict[str, int]:
     ids = await userdb.find_one({"chat_id": chat_id})
-    if not ids:
-        return {}
-    return ids["vidid"]
+    return ids["vidid"] if ids else {}
 
 
 async def get_user_top(chat_id: int, name: str) -> Union[bool, dict]:
@@ -406,9 +357,7 @@ async def get_user_top(chat_id: int, name: str) -> Union[bool, dict]:
 async def update_user_top(chat_id: int, name: str, vidid: dict):
     ids = await get_userss(chat_id)
     ids[name] = vidid
-    await userdb.update_one(
-        {"chat_id": chat_id}, {"$set": {"vidid": ids}}, upsert=True
-    )
+    await userdb.update_one({"chat_id": chat_id}, {"$set": {"vidid": ids}}, upsert=True)
 
 
 async def get_topp_users() -> dict:
@@ -443,9 +392,7 @@ async def get_banned_count() -> int:
 
 async def is_banned_user(user_id: int) -> bool:
     user = await blockeddb.find_one({"user_id": user_id})
-    if not user:
-        return False
-    return True
+    return bool(user)
 
 
 async def add_banned_user(user_id: int):
