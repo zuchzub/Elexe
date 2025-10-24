@@ -144,3 +144,14 @@ async def gen_thumb(videoid):
     except Exception as e:
         print(e)
         return YOUTUBE_IMG_URL
+
+
+# --------------------------------------------------------
+# 🔁 Ek Fonksiyon: gen_qthumb (import hatasını çözer)
+# --------------------------------------------------------
+async def gen_qthumb(videoid: str):
+    """
+    Kuyruk için (Queue) thumbnail üretimi.
+    gen_thumb ile aynı işlevi görür.
+    """
+    return await gen_thumb(videoid)
