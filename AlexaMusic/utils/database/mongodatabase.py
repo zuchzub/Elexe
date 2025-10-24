@@ -1,7 +1,7 @@
 
 from typing import Dict, List, Union
 
-from AlexaMusic.core.mongo import mongodb
+from ArchMusic.core.mongo import mongodb
 
 queriesdb = mongodb.queries
 userdb = mongodb.userstats
@@ -33,19 +33,19 @@ async def get_restart_settings() -> Dict[str, Union[bool, int]]:
 async def update_restart_settings(enabled: bool = None, interval: int = None) -> Dict[str, Union[bool, int]]:
     settings = await get_restart_settings()
     update_data = {}
-
+    
     if enabled is not None:
         update_data["enabled"] = enabled
     if interval is not None:
         update_data["interval"] = interval
-
+        
     if update_data:
         await restart_db.update_one(
             {"_id": "restart_config"},
             {"$set": update_data}
         )
         settings.update(update_data)
-
+    
     return settings
 
 
