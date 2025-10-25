@@ -3,12 +3,17 @@
 
 """
 TheTeamAlexa is a project of Telegram bots with variety of purposes.
-This program is free software: you can redistribute it and modify
-as you want or collab if you have new ideas.
+Copyright (c) 2021 ~ Present Team Alexa <https://github.com/TheTeamAlexa>
+
+This program is free software: you can redistribute it and can modify
+as you want or you can collabe if you have new ideas.
 """
 
+
 from typing import Union
+
 from pyrogram.types import InlineKeyboardButton
+
 from config import GITHUB_REPO, SUPPORT_CHANNEL, SUPPORT_GROUP, OWNER_ID
 from AlexaMusic import app
 
@@ -23,27 +28,45 @@ def start_pannel(_):
             InlineKeyboardButton(text=_["S_B_2"], callback_data="settings_helper"),
         ],
     ]
-
-    if SUPPORT_CHANNEL:
-        buttons.append([InlineKeyboardButton(text=_["S_B_4"], url=SUPPORT_CHANNEL)])
-    if SUPPORT_GROUP:
-        buttons.append([InlineKeyboardButton(text=_["S_B_3"], url=SUPPORT_GROUP)])
-
+    if SUPPORT_CHANNEL and SUPPORT_GROUP:
+        buttons.append(
+            [
+                InlineKeyboardButton(text=_["S_B_4"], url=f"{SUPPORT_CHANNEL}"),
+                InlineKeyboardButton(text=_["S_B_3"], url=f"{SUPPORT_GROUP}"),
+            ]
+        )
+    else:
+        if SUPPORT_CHANNEL:
+            buttons.append(
+                [InlineKeyboardButton(text=_["S_B_4"], url=f"{SUPPORT_CHANNEL}")]
+            )
+        if SUPPORT_GROUP:
+            buttons.append(
+                [InlineKeyboardButton(text=_["S_B_3"], url=f"{SUPPORT_GROUP}")]
+            )
     return buttons
 
 
 def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
     buttons = [
-        [InlineKeyboardButton(text=_["S_B_8"], callback_data="settings_back_helper")],
+        [InlineKeyboardButton(text=_["S_B_8"], callback_data="settings_back_helper")]
     ]
-
-    # Destek bağlantıları
-    if SUPPORT_CHANNEL:
-        buttons.append([InlineKeyboardButton(text=_["S_B_4"], url=SUPPORT_CHANNEL)])
-    if SUPPORT_GROUP:
-        buttons.append([InlineKeyboardButton(text=_["S_B_3"], url=SUPPORT_GROUP)])
-
-    # Gruba ekle
+    if SUPPORT_CHANNEL and SUPPORT_GROUP:
+        buttons.append(
+            [
+                InlineKeyboardButton(text=_["S_B_4"], url=f"{SUPPORT_CHANNEL}"),
+                InlineKeyboardButton(text=_["S_B_3"], url=f"{SUPPORT_GROUP}"),
+            ]
+        )
+    else:
+        if SUPPORT_CHANNEL:
+            buttons.append(
+                [InlineKeyboardButton(text=_["S_B_4"], url=f"{SUPPORT_CHANNEL}")]
+            )
+        if SUPPORT_GROUP:
+            buttons.append(
+                [InlineKeyboardButton(text=_["S_B_3"], url=f"{SUPPORT_GROUP}")]
+            )
     buttons.append(
         [
             InlineKeyboardButton(
@@ -52,16 +75,24 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
             )
         ]
     )
-
-    # Owner ve GitHub butonlarını birbirinden ayırdık
-    if OWNER_ID:
+    if GITHUB_REPO and OWNER_ID:
         buttons.append(
-            [InlineKeyboardButton(text=_["S_B_7"], user_id=OWNER_ID)]
+            [
+                InlineKeyboardButton(text=_["S_B_7"], user_id=OWNER_ID),
+                InlineKeyboardButton(text=_["S_B_6"], url=f"https://t.me/maviduyuru"),
+            ]
         )
-
-    if GITHUB_REPO:
-        buttons.append(
-            [InlineKeyboardButton(text=_["S_B_6"], url=https://t.me/maviduyuru]
-        )
-
+    else:
+        if GITHUB_REPO:
+            buttons.append(
+                [
+                    InlineKeyboardButton(text=_["S_B_6"], url=f"{GITHUB_REPO}"),
+                ]
+            )
+        if OWNER:
+            buttons.append(
+                [
+                    InlineKeyboardButton(text=_["S_B_7"], user_id=OWNER_ID),
+                ]
+            )
     return buttons
