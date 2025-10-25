@@ -386,8 +386,8 @@ def track_markup(_, videoid, user_id, channel, fplay):
     buttons = [
         [
             InlineKeyboardButton(
-                text=f"𝙆𝙐𝙈𝙎𝘼𝙇 𝘽𝙊𝙏𝙎", 
-                url=f"https://t.me/the_team_kumsal"
+                text=f"☔Mavi duyuru☔", 
+                url=f"https://t.me/maviduyuru"
             )
         ],
 
