@@ -1,7 +1,17 @@
+# Copyright (C) 2025 by Alexa_Help @ Github, < https://github.com/TheTeamAlexa >
+# Subscribe On YT < Jankari Ki Duniya >. All rights reserved. © Alexa © Yukki.
+
+"""
+TheTeamAlexa is a project of Telegram bots with variety of purposes.
+This program is free software: you can redistribute it and modify
+as you want or collab if you have new ideas.
+"""
+
 from typing import Union
 from pyrogram.types import InlineKeyboardButton
 from config import GITHUB_REPO, SUPPORT_CHANNEL, SUPPORT_GROUP, OWNER_ID
 from AlexaMusic import app
+
 
 def start_pannel(_):
     buttons = [
@@ -10,87 +20,30 @@ def start_pannel(_):
                 text=_["S_B_1"],
                 url=f"https://t.me/{app.username}?start=help",
             ),
-            InlineKeyboardButton(
-                text=_["S_B_2"], callback_data="settings_helper"
-            ),
+            InlineKeyboardButton(text=_["S_B_2"], callback_data="settings_helper"),
         ],
     ]
-    if SUPPORT_CHANNEL and SUPPORT_GROUP:
-        buttons.append(
-            [
-                InlineKeyboardButton(
-                    text=_["S_B_4"], url=f"https://t.me/huzundiyarii"
-                ),
-                InlineKeyboardButton(
-                    text=_["S_B_3"], url=f"https://t.me/huzundiyarii"
-                ),
-            ]
-        )
-    else:
-        if SUPPORT_CHANNEL:
-            buttons.append(
-                [
-                    InlineKeyboardButton(
-                        text=_["S_B_4"], url=f"https://t.me/maviduyuru"
-                    )
-                ]
-            )
-        if SUPPORT_GROUP:
-            buttons.append(
-                [
-                    InlineKeyboardButton(
-                        text=_["S_B_3"], url=f"https://t.me/maviduyuru"
-                    )
-                ]
-            )
 
-    # ✅ En alta TEK bir yeni bağlantı
-    buttons.append(
-        [
-            InlineKeyboardButton(
-                text="🔮 kurucu", url="https://the_cihan_albora"
-            )
-        ]
-    )
+    if SUPPORT_CHANNEL:
+        buttons.append([InlineKeyboardButton(text=_["S_B_4"], url=SUPPORT_CHANNEL)])
+    if SUPPORT_GROUP:
+        buttons.append([InlineKeyboardButton(text=_["S_B_3"], url=SUPPORT_GROUP)])
+
     return buttons
 
 
 def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
     buttons = [
-        [
-            InlineKeyboardButton(
-                text=_["S_B_8"], callback_data="settings_back_helper"
-            )
-        ]
+        [InlineKeyboardButton(text=_["S_B_8"], callback_data="settings_back_helper")],
     ]
-    if SUPPORT_CHANNEL and SUPPORT_GROUP:
-        buttons.append(
-            [
-                InlineKeyboardButton(
-                    text=_["S_B_4"], url=f"https://t.me/maviduyuru"
-                ),
-                InlineKeyboardButton(
-                    text=_["S_B_3"], url=f"https://t.me/maviduyuru"
-                ),
-            ]
-        )
-    else:
-        if SUPPORT_CHANNEL:
-            buttons.append(
-                [
-                    InlineKeyboardButton(
-                        text=_["S_B_4"], url=f"https://t.me/maviduyuru"
-                    )
-                ]
-            )
-        if SUPPORT_GROUP:
-            buttons.append(
-                [
-                    InlineKeyboardButton(
-                        text=_["S_B_3"], url=f"https://t.me/maviduyuru"
-                    )
-                ]
-            )
+
+    # Destek bağlantıları
+    if SUPPORT_CHANNEL:
+        buttons.append([InlineKeyboardButton(text=_["S_B_4"], url=SUPPORT_CHANNEL)])
+    if SUPPORT_GROUP:
+        buttons.append([InlineKeyboardButton(text=_["S_B_3"], url=SUPPORT_GROUP)])
+
+    # Gruba ekle
     buttons.append(
         [
             InlineKeyboardButton(
@@ -99,30 +52,16 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
             )
         ]
     )
-    if GITHUB_REPO and OWNER:
+
+    # Owner ve GitHub butonlarını birbirinden ayırdık
+    if OWNER_ID:
         buttons.append(
-            [
-                InlineKeyboardButton(text=_["S_B_7"], user_id=OWNER),
-                InlineKeyboardButton(
-                    text=_["S_B_6"], url=f"https://t.me/huzundiyarii"
-                ),
-            ]
+            [InlineKeyboardButton(text=_["S_B_7"], user_id=OWNER_ID)]
         )
-    else:
-        if GITHUB_REPO:
-            buttons.append(
-                [
-                    InlineKeyboardButton(
-                        text=_["S_B_6"], url=f"https://t.me/huzundiyarii"
-                    ),
-                ]
-            )
-        if OWNER:
-            buttons.append(
-                [
-                    InlineKeyboardButton(
-                        text=_["S_B_7"], user_id=OWNER
-                    ),
-                ]
-            )
+
+    if GITHUB_REPO:
+        buttons.append(
+            [InlineKeyboardButton(text=_["S_B_6"], url=https://t.me/maviduyuru]
+        )
+
     return buttons
