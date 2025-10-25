@@ -116,18 +116,19 @@ async def stream(
                     forceplay=forceplay,
                 )
                 # theme = await check_theme(chat_id)
-                img = await gen_thumb(vidid)
+                # img = await gen_thumb(vidid) # DEĞİŞİKLİK: Resim oluşturma kapatıldı
                 button = stream_markup(_, vidid, chat_id)
-                run = await app.send_photo(
+                run = await app.send_message( # DEĞİŞİKLİK: send_photo -> send_message
                     original_chat_id,
-                    photo=img,
-                    caption=_["stream_1"].format(
-                        title[:27],
+                    # photo=img, # DEĞİŞİKLİK: photo satırı kaldırıldı
+                    text=_["stream_1"].format( # DEĞİŞİKLİK: caption -> text
+                        title,
                         f"https://t.me/{app.username}?start=info_{vidid}",
                         duration_min,
                         user_name,
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
+                    disable_web_page_preview=True # DEĞİŞİKLİK: Link önizlemesi kapatıldı
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "stream"
@@ -136,13 +137,14 @@ async def stream(
         link = await Alexabin(msg)
         lines = msg.count("\n")
         car = os.linesep.join(msg.split(os.linesep)[:17]) if lines >= 17 else msg
-        carbon = await Carbon.generate(car, randint(100, 10000000))
+        # carbon = await Carbon.generate(car, randint(100, 10000000)) # DEĞİŞİKLİK: Carbon resmi oluşturma kapatıldı
         upl = close_markup(_)
-        return await app.send_photo(
+        return await app.send_message( # DEĞİŞİKLİK: send_photo -> send_message
             original_chat_id,
-            photo=carbon,
-            caption=_["playlist_18"].format(position, link),
+            # photo=carbon, # DEĞİŞİKLİK: photo satırı kaldırıldı
+            text=_["playlist_18"].format(position, link), # DEĞİŞİKLİK: caption -> text
             reply_markup=upl,
+            disable_web_page_preview=True # DEĞİŞİKLİK: Link önizlemesi kapatıldı
         )
     elif streamtype == "youtube":
         link = result["link"]
@@ -171,15 +173,16 @@ async def stream(
             )
             # theme = await check_theme(chat_id)
             position = len(db.get(chat_id)) - 1
-            qimg = await gen_qthumb(vidid)
+            # qimg = await gen_qthumb(vidid) # DEĞİŞİKLİK: Resim oluşturma kapatıldı
             button = queue_markup(_, vidid, chat_id)
-            run = await app.send_photo(
+            run = await app.send_message( # DEĞİŞİKLİK: send_photo -> send_message
                 original_chat_id,
-                photo=qimg,
-                caption=_["queue_4"].format(
+                # photo=qimg, # DEĞİŞİKLİK: photo satırı kaldırıldı
+                text=_["queue_4"].format( # DEĞİŞİKLİK: caption -> text
                     position, title[:27], duration_min, user_name
                 ),
                 reply_markup=InlineKeyboardMarkup(button),
+                disable_web_page_preview=True # DEĞİŞİKLİK: Link önizlemesi kapatıldı
             )
         else:
             if not forceplay:
@@ -200,19 +203,20 @@ async def stream(
                 forceplay=forceplay,
             )
             # theme = await check_theme(chat_id)
-            img = await gen_thumb(vidid)
+            # img = await gen_thumb(vidid) # DEĞİŞİKLİK: Resim oluşturma kapatıldı
             button = stream_markup(_, vidid, chat_id)
             try:
-                run = await app.send_photo(
+                run = await app.send_message( # DEĞİŞİKLİK: send_photo -> send_message
                     original_chat_id,
-                    photo=img,
-                    caption=_["stream_1"].format(
-                        title[:27],
+                    # photo=img, # DEĞİŞİKLİK: photo satırı kaldırıldı
+                    text=_["stream_1"].format( # DEĞİŞİKLİK: caption -> text
+                        title,
                         f"https://t.me/{app.username}?start=info_{vidid}",
                         duration_min,
                         user_name,
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
+                    disable_web_page_preview=True # DEĞİŞİKLİK: Link önizlemesi kapatıldı
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "stream"
@@ -237,7 +241,8 @@ async def stream(
             position = len(db.get(chat_id)) - 1
             await app.send_message(
                 original_chat_id,
-                _["queue_4"].format(position, title[:30], duration_min, user_name),
+                _["queue_4"].format(position, title, duration_min, user_name),
+                disable_web_page_preview=True # DEĞİŞİKLİK: Link önizlemesi kapatıldı
             )
         else:
             if not forceplay:
@@ -256,11 +261,12 @@ async def stream(
                 forceplay=forceplay,
             )
             button = telegram_markup(_, chat_id)
-            run = await app.send_photo(
+            run = await app.send_message( # DEĞİŞİKLİK: send_photo -> send_message
                 original_chat_id,
-                photo=config.SOUNCLOUD_IMG_URL,
-                caption=_["stream_3"].format(title, duration_min, user_name),
+                # photo=config.SOUNCLOUD_IMG_URL, # DEĞİŞİKLİK: photo satırı kaldırıldı
+                text=_["stream_3"].format(title, duration_min, user_name), # DEĞİŞİKLİK: caption -> text
                 reply_markup=InlineKeyboardMarkup(button),
+                disable_web_page_preview=True # DEĞİŞİKLİK: Link önizlemesi kapatıldı
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
@@ -285,7 +291,8 @@ async def stream(
             position = len(db.get(chat_id)) - 1
             await app.send_message(
                 original_chat_id,
-                _["queue_4"].format(position, title[:30], duration_min, user_name),
+                _["queue_4"].format(position, title, duration_min, user_name),
+                disable_web_page_preview=True # DEĞİŞİKLİK: Link önizlemesi kapatıldı
             )
         else:
             if not forceplay:
@@ -306,11 +313,12 @@ async def stream(
             if video:
                 await add_active_video_chat(chat_id)
             button = telegram_markup(_, chat_id)
-            run = await app.send_photo(
+            run = await app.send_message( # DEĞİŞİKLİK: send_photo -> send_message
                 original_chat_id,
-                photo=config.TELEGRAM_VIDEO_URL if video else config.TELEGRAM_AUDIO_URL,
-                caption=_["stream_4"].format(title, link, duration_min, user_name),
+                # photo=config.TELEGRAM_VIDEO_URL if video else config.TELEGRAM_AUDIO_URL, # DEĞİŞİKLİK: photo satırı kaldırıldı
+                text=_["stream_4"].format(title, link, duration_min, user_name), # DEĞİŞİKLİK: caption -> text
                 reply_markup=InlineKeyboardMarkup(button),
+                disable_web_page_preview=True # DEĞİŞİKLİK: Link önizlemesi kapatıldı
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
@@ -336,7 +344,8 @@ async def stream(
             position = len(db.get(chat_id)) - 1
             await app.send_message(
                 original_chat_id,
-                _["queue_4"].format(position, title[:30], duration_min, user_name),
+                _["queue_4"].format(position, title, duration_min, user_name),
+                disable_web_page_preview=True # DEĞİŞİKLİK: Link önizlemesi kapatıldı
             )
         else:
             if not forceplay:
@@ -364,18 +373,19 @@ async def stream(
                 forceplay=forceplay,
             )
             # theme = await check_theme(chat_id)
-            img = await gen_thumb(vidid)
+            # img = await gen_thumb(vidid) # DEĞİŞİKLİK: Resim oluşturma kapatıldı
             button = telegram_markup(_, chat_id)
-            run = await app.send_photo(
+            run = await app.send_message( # DEĞİŞİKLİK: send_photo -> send_message
                 original_chat_id,
-                photo=img,
-                caption=_["stream_1"].format(
-                    title[:27],
+                # photo=img, # DEĞİŞİKLİK: photo satırı kaldırıldı
+                text=_["stream_1"].format( # DEĞİŞİKLİK: caption -> text
+                    title,
                     f"https://t.me/{app.username}?start=info_{vidid}",
                     duration_min,
                     user_name,
                 ),
                 reply_markup=InlineKeyboardMarkup(button),
+                disable_web_page_preview=True # DEĞİŞİKLİK: Link önizlemesi kapatıldı
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
@@ -396,7 +406,7 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             await mystic.edit_text(
-                _["queue_4"].format(position, title[:30], duration_min, user_name)
+                _["queue_4"].format(position, title, duration_min, user_name)
             )
         else:
             if not forceplay:
@@ -419,11 +429,12 @@ async def stream(
                 forceplay=forceplay,
             )
             button = telegram_markup(_, chat_id)
-            run = await app.send_photo(
+            run = await app.send_message( # DEĞİŞİKLİK: send_photo -> send_message
                 original_chat_id,
-                photo=config.STREAM_IMG_URL,
-                caption=_["stream_2"].format(user_name),
+                # photo=config.STREAM_IMG_URL, # DEĞİŞİKLİK: photo satırı kaldırıldı
+                text=_["stream_2"].format(user_name), # DEĞİŞİKLİK: caption -> text
                 reply_markup=InlineKeyboardMarkup(button),
+                disable_web_page_preview=True # DEĞİŞİKLİK: Link önizlemesi kapatıldı
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
