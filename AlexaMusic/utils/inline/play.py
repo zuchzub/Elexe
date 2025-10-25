@@ -1,56 +1,62 @@
 # ===============================================
-# 🌌 Kumsal Bots - Parıltılı Müzik Arayüzü
-# Minimal, modern, sade ve güçlü kontrol sistemi
+# 🌌 Mavi Duyuru - Parıltılı Müzik Arayüzü
+# Minimal, zarif, sade ve güçlü kontrol sistemi
 # ===============================================
 
 import math
-from pyrogram.types import InlineKeyboardButton
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 # ───────────────────────────────
-# 🔹 Basit ve şık zaman dönüştürücü
+# 🔹 Basit ve zarif zaman dönüştürücü
 # ───────────────────────────────
 def time_to_sec(t):
-    parts = list(map(int, t.split(":")))
-    return parts[0] * 60 + parts[1] if len(parts) == 2 else 0
+    """Dakika:saniye formatını saniyeye çevirir."""
+    try:
+        parts = list(map(int, t.split(":")))
+        return parts[0] * 60 + parts[1] if len(parts) == 2 else 0
+    except Exception:
+        return 0
 
 
 # ───────────────────────────────
-# 💫 Parıltılı ilerleme çubuğu
+# 💫 Parıltılı ilerleme çubuğu (Mavi Duyuru teması)
 # ───────────────────────────────
-def progress_bar(played, total):
+def progress_bar(played: str, total: str) -> str:
+    """Oynatma süresi ve toplam süreye göre mavi parıltılı bar döndürür."""
     played_sec = time_to_sec(played)
     total_sec = time_to_sec(total) or 1
     ratio = played_sec / total_sec
     pos = int(ratio * 10)
     bar = ""
+
     for i in range(10):
         if i == pos:
             bar += "🔹"  # mavi parıltı noktası
         else:
-            bar += "⠂"  # zarif çizgi efekti
+            bar += "⠂"  # ince zarif çizgi
+
     return f"{played}  {bar}  {total}"
 
 
 # ───────────────────────────────
-# 🎧 Stream oynatma (YouTube vb.)
+# 🌌 Mavi Duyuru Akış Butonları
 # ───────────────────────────────
 def stream_markup_timer(_, videoid, chat_id, played, dur):
+    """Mavi Duyuru tasarımına sahip minimalist buton düzeni."""
+    bar_text = progress_bar(played, dur)
     buttons = [
+        [InlineKeyboardButton(text=bar_text, callback_data="nonclickable")],
+        [InlineKeyboardButton("🌌 ʟɪꜱᴛᴇʏᴇ ᴇᴋʟᴇ 🌌", callback_data=f"add_playlist {videoid}")],
         [InlineKeyboardButton("🌌 ᴍᴀᴠɪ ᴅᴜʏᴜʀᴜ 🌌", url="https://t.me/maviduyuru")],
-        [InlineKeyboardButton(text=progress_bar(played, dur), callback_data="nonclickable")],
-        [
-            InlineKeyboardButton("⏮", callback_data=f"ADMIN 1|{chat_id}"),
-            InlineKeyboardButton("⏸", callback_data=f"pausevc {chat_id}"),
-            InlineKeyboardButton("▶️", callback_data=f"resumevc {chat_id}"),
-            InlineKeyboardButton("⏭", callback_data=f"ADMIN 2|{chat_id}"),
-            InlineKeyboardButton("⏹", callback_data=f"stopvc {chat_id}"),
-        ],
-        [
-            InlineKeyboardButton("💎 Listeye Ekle", callback_data=f"add_playlist {videoid}"),
-            InlineKeyboardButton("✨ Kontrol Paneli", callback_data=f"PanelMarkup None|{chat_id}"),
-        ],
     ]
     return buttons
+
+
+# ───────────────────────────────
+# 🎧 Örnek kullanım
+# ───────────────────────────────
+# markup = stream_markup_timer(None, "abc123", 12345, "01:23", "03:45")
+# app.send_message(chat_id, "🎶 Şarkı #oynatılıyor", reply_markup=markup)
 
 
 # ───────────────────────────────
